@@ -7,12 +7,10 @@ import akka.http.scaladsl.model.{HttpEntity, HttpResponse}
 import akka.http.scaladsl.model.ContentTypes.`text/plain(UTF-8)`
 
 
-class Routes(actions: DBActions) {
+class Routes(actions: Services) {
 
-  implicit val longMarshaller: ToEntityMarshaller[Long] = {
-    Marshaller.withFixedContentType(`text/plain(UTF-8)`) { l: Long =>
-      HttpEntity(`text/plain(UTF-8)`, l.toString)
-    }
+  implicit val intMarshaller: ToEntityMarshaller[Int] = {
+    Marshaller.withFixedContentType(`text/plain(UTF-8)`) { i => HttpEntity(i.toString) }
   }
 
   def routes: Route = {

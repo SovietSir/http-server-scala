@@ -1,18 +1,18 @@
 package Server
 
-import scala.concurrent.Future
+import slick.jdbc.H2Profile.api._
 
-trait DBActions {
+object DBActions {
 
-  def get(): Future[Long]
+  lazy val userTable = TableQuery[UserTable]
 
-  def post(user: String): Unit
+  //-----------------Create table-----------------
+  val createUserTableAction = userTable.schema.create
 
-}
+  //-----------------Try to put user-----------------
+  def insertUser(user: String): DBIO[Int] = userTable += user
 
-object DBActions extends DBActions {
+  //-----------------Get count of users-----------------
+  val getUsers = userTable.length.result
 
-  override def get(): Future[Long] = Future.successful(1)
-
-  override def post(user: String): Unit = {}
 }
